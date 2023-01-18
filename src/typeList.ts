@@ -16,3 +16,6 @@ let tuple: [number, string] = [0, "A"];
 
 //any
 let any: any = false;
+
+//obj
+let obj: { id: number; a: string } = { id: 1, a: "aa" };
