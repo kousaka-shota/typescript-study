@@ -22,7 +22,9 @@ class Room(BaseModel):
     room_name: str = Field(max_length=12)
     capacity: int
 
+
 app = FastAPI()
+
 
 @app.get("/")
 async def index():
@@ -42,3 +44,5 @@ async def room(rooms: Room):
 @app.post("/bookings")
 async def booking(bookings: Booking):
     return {"bookings": bookings}
+
+    aaaaaa
