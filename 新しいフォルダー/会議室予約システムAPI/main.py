@@ -44,5 +44,3 @@ async def room(rooms: Room):
 @app.post("/bookings")
 async def booking(bookings: Booking):
     return {"bookings": bookings}
-
-    aaaaaa
