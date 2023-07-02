@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # sqliteのデータベースがあるパス
-SQLALCHEMY_DATABASE_URL = "sqlite://./sql_app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 
 #　データベースを可動
 engine = create_engine(

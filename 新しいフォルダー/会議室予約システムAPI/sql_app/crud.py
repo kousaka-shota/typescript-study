@@ -31,7 +31,7 @@ def create_room(db:Session , room:schemas.Room):
     return db_room
 
 #予約登録
-def create_booking(db:Session , booking:schemas.booking):
+def create_booking(db:Session , booking:schemas.Booking):
     db_booking = models.Booking( 
         user_id = booking.user_id,
         room_id = booking.room_id,
