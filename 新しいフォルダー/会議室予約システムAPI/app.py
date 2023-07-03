@@ -72,30 +72,34 @@ elif page == "bookings":
     df_rooms = pd.DataFrame(res_rooms)
     st.table(df_rooms)
 
+
     url_booking = "http://127.0.0.1:8000/bookings"
     res_booking = requests.get(url_booking).json()
     df_booking = pd.DataFrame(res_booking)
+
+    # userIDがキーとなる辞書を作製
     users_id = {}
     for user in users:
         users_id[user["user_id"]] = user["user_name"]
+
+    #roomIDがキーとなる辞書を作製
     rooms_id = {}
     for room in res_rooms:
         rooms_id[room["room_id"]] = {
             "room_name" :room["room_name"],
             "capacity" : room["capacity"]
             }
+
     to_user_name = lambda x: users_id[x]
     to_room_name = lambda x: rooms_id[x]["room_name"]
-    to_datetime = lambda x: datetime.datetime.fromisoformat(x).strftime("%Y/%M/%d %H:%M")
-
+    to_datetime = lambda x: datetime.datetime.fromisoformat(x).strftime("%Y/%m/%d %H:%M")
 
     df_booking["user_id"] = df_booking["user_id"].map(to_user_name)
     df_booking["room_id"] = df_booking["room_id"].map(to_room_name)
     df_booking["start_datetime"] = df_booking["start_datetime"].map(to_datetime)
     df_booking["end_datetime"] = df_booking["end_datetime"].map(to_datetime)
-
     
-    df_booking.rename(columns={
+    df_booking = df_booking.rename(columns={
         "user_id":"予約者名",
         "room_id":"会議室名",
         "booked_num":"予約人数",
@@ -135,12 +139,20 @@ elif page == "bookings":
             ).isoformat()
         }
 
-        if booked_num <= capacity:
+        if booked_num >= capacity:
+            st.error(f"{room_name}の定員は、{capacity}人です。予約人数を{capacity}人以下に変更してください")
+
+        elif start_time >= end_time:
+            st.error("開始時刻が終了時刻を超えています")
+
+        elif start_time < datetime.time(hour=9 ,minute=0,second=0) or end_time > datetime.time(hour=20 ,minute=0,second=0):
+            st.error("利用時間は9:00~20:00になります")
+
+        else:
             url="http://127.0.0.1:8000/bookings"
             res = requests.post(url,json=data)
             if res.status_code == 200:
                 st.success("予約が完了しました")
-
+            elif res.status_code == 404 and res.json():
+                st.error("指定時間は既に予約されています")
             st.json(res.json())
-        else:
-            st.error(f"{room_name}の定員は、{capacity}人です。予約人数を{capacity}人以下に変更してください")
