@@ -1,7 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
+from .. import crud,schemas,dependencies
+from typing import List
 
-router = APIRouter()
 
-@router.get("/equipment/")
+
+router = APIRouter(dependencies=[Depends(dependencies.get_token_header)])
+
+@router.get("/equipments/",response_model=List[schemas.Equipment])
 async def get_equipments():
-    return {"equipments":"aaa"}
+    equipments = crud.get_equipments()
+    return equipments

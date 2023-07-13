@@ -1,5 +1,5 @@
 from pydantic import BaseModel,Field
-from datetime import datetime
+import datetime
 
 class Equipment(BaseModel):
     equip_id:int
@@ -19,7 +19,7 @@ class Sensor(BaseModel):
         orm_mode = True
     
 class MeasuredData(BaseModel):
-    timestamp:datetime.dateTime
+    timestamp:datetime.datetime
     equip_id:int
     sensor_id:int
     measured_value:float
