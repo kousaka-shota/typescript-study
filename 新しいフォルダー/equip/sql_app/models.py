@@ -1,5 +1,5 @@
 from .database import Base
-from sqlalchemy import Column,String,DateTime,Integer
+from sqlalchemy import Column,String,DateTime,Integer,Float
 from datetime import datetime
 
 class Equipment(Base):
@@ -15,10 +15,10 @@ class Sensor(Base):
     sensor_id:Column(Integer,primary_key=True)
     sensor_name:Column(String)
 
-class MesuredData(Base):
-    __tablename__  = "Mesured_Data"
+class MeasuredData(Base):
+    __tablename__  = "Measured_Data"
     timestamp = Column(DateTime,default=datetime.now,primary_key=True)
     equip_id = Column(Integer,ForeignKey("equipments.equip_id"))
     sensor_id = Column(Integer,ForeignKey("sensors.sensor_id"),primary_key=True)
-    mesured_value = Column(Integer)
+    measured_value = Column(Float)
 
