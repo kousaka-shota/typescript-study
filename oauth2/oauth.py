@@ -62,6 +62,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+# /token は OAuth2PasswordBearer(tokenUrl="token")でtokenUrl="token" → /tokenのpostした時ってかんじになる
 @app.post("/token")
 #  = Depends()でform_dataのデフォルト値にOAuth2PasswordRequestFormの値を入れる
 # OAuth2PasswordRequestFormはユーザーが入力した情報の型であり関数であり。クラスなのかな？
